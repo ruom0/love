@@ -122,6 +122,16 @@
 
     <!-- 计时器 -->
     <script>
+        function daysDistance(date1, date2) {     
+            //parse() 是 Date 的一个静态方法 , 所以应该使用 Date.parse() 来调用，而不是作为 Date 的实例方法。返回该日期距离 1970/1/1 午夜时间的毫秒数
+            date1 = Date.parse(date1);
+            date2 = Date.parse(date2);
+            //计算两个日期之间相差的毫秒数的绝对值
+            var distance = Math.abs(date2 - date1);
+            //毫秒数除以一天的毫秒数,就得到了天数
+            var days = Math.floor(distance / (24 * 3600 * 1000));
+            return days ;
+        };
         function timer() {
             var start = new Date(2016, 11, 25, 00, 00, 00);
             var t = new Date() - start;
@@ -176,62 +186,6 @@
         to_comments.onclick = move;
     </script>
 
-    <!-- 情话接口 -->
-    <script>
-        //进入页面时请求
-        $.ajax({
-            url: 'php/love.php',
-            type: "GET",
-            async: true,
-            data: "type=json",
-            dataType: "json",
-            success: function (loveJson) {
-                let love = loveJson["data"];
-                $(".love-son").append(love);
-            },
-            error: function (textStatus) {
-                console.log(JSON.stringify(textStatus));
-            }
-        });
-
-        //点击时请求
-        $(".love").click(function () {
-            $.ajax({
-                url: 'php/love.php',
-                type: "GET",
-                async: true,
-                data: "type=json",
-                dataType: "json",
-                success: function (loveJson) {
-                    let love = loveJson["data"];
-                    love = `<span class="love-son"">${love}</span>`;
-                    $(".love").children().replaceWith(love);
-                },
-                error: function (textStatus) {
-                    console.log(JSON.stringify(textStatus));
-                }
-            });
-        });
-
-        $("#updatalove").click(function () {
-            $.ajax({
-                url: 'php/love.php',
-                type: "GET",
-                async: true,
-                data: "type=json",
-                dataType: "json",
-                success: function (loveJson) {
-                    let love = loveJson["data"];
-                    love = `<span class="love-son"">${love}</span>`;
-                    $(".love").children().replaceWith(love);
-                },
-                error: function (textStatus) {
-                    console.log(JSON.stringify(textStatus));
-                }
-            });
-        });
-    </script>
-
     <!-- Valine 评论系统； 由 LeanCloud 管理数据 -->
     <script>
         new Valine({
@@ -240,9 +194,6 @@
             appKey: 'GNTSidCWbfrS2gAgjtBcOVnV'
         })
     </script>
-
-    <!-- 底部波浪 -->
-    <script src="php/wave.php"></script>
 </body>
 
 </html>
